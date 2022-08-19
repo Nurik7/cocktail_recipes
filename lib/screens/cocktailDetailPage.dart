@@ -40,18 +40,6 @@ class _CocktailDetailPageState extends State<CocktailDetailPage> {
   bool _muted = false;
   bool _isPlayerReady = false;
 
-  final List<String> _ids = [
-    'nPt8bK2gbaU',
-    'gQDByCdjUXw',
-    'iLnmTe5Q2Qw',
-    '_WoCV4c6XOE',
-    'KmzdUe0RSJo',
-    '6jZDSSZZxjQ',
-    'p2lYr3vM_1w',
-    '7QUtEmBT_-w',
-    '34_PXCzGw1M',
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -131,8 +119,11 @@ class _CocktailDetailPageState extends State<CocktailDetailPage> {
         },
       ),
       builder: (context, player) => Scaffold(
+        backgroundColor: const Color(0xFFEAF1F3),
         floatingActionButton: widget.videoUrl != null
             ? FloatingActionButton(
+                splashColor: const Color(0xFFEAF1F3),
+                backgroundColor: Colors.lightGreenAccent,
                 onPressed: () {
                   setState(() {
                     _controller.value.isPlaying
@@ -142,14 +133,15 @@ class _CocktailDetailPageState extends State<CocktailDetailPage> {
                 },
                 child: Icon(
                   _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                  color: Colors.black,
                 ),
               )
             : null,
-        body: NestedScrollView(
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
+        body: CustomScrollView(
+          slivers: [
+            SliverSafeArea(
+              top: false,
+              sliver: SliverAppBar(
                 leadingWidth: 90,
                 leading: InkWell(
                   onTap: () => Navigator.of(context).pop(),
@@ -174,104 +166,90 @@ class _CocktailDetailPageState extends State<CocktailDetailPage> {
                 flexibleSpace: FlexibleSpaceBar(
                   collapseMode: CollapseMode.parallax,
                   titlePadding: EdgeInsets.zero,
-                  title: LayoutBuilder(builder:
-                      (BuildContext context, BoxConstraints constraints) {
-                    double top = constraints.biggest.height;
-                    return AnimatedOpacity(
-                      duration: const Duration(milliseconds: 300),
-                      opacity: 1,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: top == 80 ? 17 : 7, horizontal: 12),
-                        width: double.infinity,
-                        color: Colors.white.withOpacity(0.55),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              widget.title,
-                              textAlign: TextAlign.start,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            top !=
-                                    MediaQuery.of(context).size.height / 2 +
-                                        100 +
-                                        MediaQuery.of(context).padding.top
-                                ? Container()
-                                : Column(
+                  title: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 300),
+                    opacity: 1,
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+                      width: double.infinity,
+                      color: Colors.white.withOpacity(0.55),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            widget.title,
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Column(
+                            children: [
+                              const SizedBox(height: 5),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
                                     children: [
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                widget.isAlcoholic ==
-                                                        "Alcoholic"
-                                                    ? Icons
-                                                        .local_fire_department_rounded
-                                                    : Icons.no_drinks_outlined,
-                                                color: Colors.black,
-                                                size: 10,
-                                              ),
-                                              const SizedBox(width: 2),
-                                              Text(
-                                                widget.isAlcoholic,
-                                                style: const TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.black),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(width: 7),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.wine_bar_rounded,
-                                                color: Colors.black,
-                                                size: 10,
-                                              ),
-                                              const SizedBox(width: 2),
-                                              Text(
-                                                widget.glassType,
-                                                style: const TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.black),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(width: 7),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.filter_list,
-                                                color: Colors.black,
-                                                size: 10,
-                                              ),
-                                              const SizedBox(width: 2),
-                                              Text(
-                                                widget.category,
-                                                style: const TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                      Icon(
+                                        widget.isAlcoholic == "Alcoholic"
+                                            ? Icons
+                                                .local_fire_department_rounded
+                                            : Icons.no_drinks_outlined,
+                                        color: Colors.black,
+                                        size: 10,
+                                      ),
+                                      const SizedBox(width: 2),
+                                      Text(
+                                        widget.isAlcoholic,
+                                        style: const TextStyle(
+                                            fontSize: 10, color: Colors.black),
                                       ),
                                     ],
                                   ),
-                          ],
-                        ),
+                                  const SizedBox(width: 7),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.wine_bar_rounded,
+                                        color: Colors.black,
+                                        size: 10,
+                                      ),
+                                      const SizedBox(width: 2),
+                                      Text(
+                                        widget.glassType,
+                                        style: const TextStyle(
+                                            fontSize: 10, color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 7),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.filter_list,
+                                        color: Colors.black,
+                                        size: 10,
+                                      ),
+                                      const SizedBox(width: 2),
+                                      Text(
+                                        widget.category,
+                                        style: const TextStyle(
+                                            fontSize: 10, color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    );
-                  }),
+                    ),
+                  ),
                   background: Image.network(
                     widget.image,
                     fit: BoxFit.cover,
@@ -280,25 +258,78 @@ class _CocktailDetailPageState extends State<CocktailDetailPage> {
                   ),
                 ),
                 floating: true,
-                snap: true,
+                snap: false,
                 pinned: true,
-              )
-            ];
-          },
-          body: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-            children: [
-              Text(widget.instructions),
-              const Text("Ingredients"),
-              ...widget.recipe
-                  .map((block) => CocktailRecipeBlock(block: block))
-                  .toList(),
-              if (widget.videoUrl != null) ...[
-                const SizedBox(height: 10),
-                player
-              ]
-            ],
-          ),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate([
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        widget.instructions,
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Expanded(
+                            child: Divider(
+                              height: 1,
+                              color: Colors.red,
+                              endIndent: 15,
+                            ),
+                          ),
+                          Text(
+                            "Ingredients",
+                            style: TextStyle(fontSize: 22),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              height: 1,
+                              color: Colors.red,
+                              indent: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      // ...widget.recipe
+                      //     .map((block) => CocktailRecipeBlock(block: block))
+                      //     .toList(),
+                      Column(
+                        children: widget.recipe
+                            .map((block) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: CocktailRecipeBlock(block: block),
+                                ))
+                            .toList(),
+                      ),
+                      if (widget.videoUrl != null) ...[
+                        const SizedBox(height: 20),
+                        Container(
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromRGBO(235, 236, 244, 1),
+                                    spreadRadius: 1,
+                                    blurRadius: 1)
+                              ],
+                            ),
+                            child: player),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height / 3),
+                      ]
+                    ],
+                  ),
+                )
+              ]),
+            ),
+          ],
         ),
       ),
     );

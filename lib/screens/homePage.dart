@@ -89,12 +89,15 @@ class _MyHomePageState extends State<MyHomePage> {
         icon: Icons.wine_bar_rounded,
         iconColor: Colors.red,
       ),
+      backgroundColor: const Color(0xFFEAF1F3),
       body: _isLoading && (_recipes == null || _recipes!.isEmpty)
           ? const Center(child: CircularProgressIndicator(color: Colors.yellow))
           : Column(
               children: [
                 Expanded(
                   child: GridView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(
+                        parent: BouncingScrollPhysics()),
                     controller: _controller,
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
