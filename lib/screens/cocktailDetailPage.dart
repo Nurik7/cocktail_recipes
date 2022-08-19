@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/widgets/cocktailRecipeBlock.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'dart:developer';
 import 'package:flutter/services.dart';
 
 class CocktailDetailPage extends StatefulWidget {
@@ -36,8 +35,6 @@ class _CocktailDetailPageState extends State<CocktailDetailPage> {
 
   late PlayerState _playerState;
   late YoutubeMetaData _videoMetaData;
-  double _volume = 100;
-  bool _muted = false;
   bool _isPlayerReady = false;
 
   @override
@@ -170,8 +167,8 @@ class _CocktailDetailPageState extends State<CocktailDetailPage> {
                     duration: const Duration(milliseconds: 300),
                     opacity: 1,
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 7, horizontal: 12),
                       width: double.infinity,
                       color: Colors.white.withOpacity(0.55),
                       child: Column(
@@ -250,11 +247,17 @@ class _CocktailDetailPageState extends State<CocktailDetailPage> {
                       ),
                     ),
                   ),
-                  background: Image.network(
-                    widget.image,
-                    fit: BoxFit.cover,
-                    colorBlendMode: BlendMode.multiply,
-                    color: Colors.black.withOpacity(0.35),
+                  background: Hero(
+                    tag: widget.title,
+                    child: Material( // <--- Provide Material
+                      type: MaterialType.transparency,
+                      child: Image.network(
+                        widget.image,
+                        fit: BoxFit.cover,
+                        colorBlendMode: BlendMode.multiply,
+                        color: Colors.black.withOpacity(0.35),
+                      ),
+                    ),
                   ),
                 ),
                 floating: true,
